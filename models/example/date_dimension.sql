@@ -5,21 +5,15 @@ WITH CTE AS (
     HOUR(TO_TIMESTAMP(STARTED_AT)) AS HOUR_STARTED_AT,
 
 
-    CASE 
-    WHEN DAYNAME(TO_TIMESTAMP(STARTED_AT)) IN ('Sat','Sun')
-    Then 'Weekend'
-    else 'Businessday'
-    End AS DAY,
+   {{day_type('STARTED_AT')}} AS Day_Type,
 
 
-    CASE WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) IN ('12','1','2')
-    THEN 'Winter'
-    WHEN  MONTH(TO_TIMESTAMP(STARTED_AT)) IN ('3','4','5')
-    THEN 'Spring'
-    WHEN  MONTH(TO_TIMESTAMP(STARTED_AT)) IN ('6','7','8')
-    THEN 'Summer'
-    ELSE 'Autumn'
-    End AS Station_of_Year
+    {{get_season('STARTED_AT')}} AS Station_of_Year ,
+
+    {{function1('STARTED_AT')}} AS Time
+
+
+
     FROM {{ source('demo', 'bike') }}
     where STARTED_AT != 'started_at'
 )
