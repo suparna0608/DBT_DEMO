@@ -14,7 +14,7 @@ WITH CTE AS (
 
 
 
-    FROM {{ source('demo', 'bike') }}
+    FROM {{ ref('stage_bike') }}
     where STARTED_AT != 'started_at'
 )
 SELECT * FROM CTE

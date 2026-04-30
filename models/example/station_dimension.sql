@@ -5,7 +5,7 @@ WITH BIKE AS (
     START_LATITUDE,
     START_LONGITUDE
 
-    FROM {{ source('demo', 'bike') }}
+    FROM {{ ref('stage_bike') }}
     WHERE RIDE_ID != 'ride_id'
 
     limit 10
